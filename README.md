@@ -162,5 +162,37 @@ You should now be able to open up your Minecraft world, `Teleport`.
 - Give yourself a `Spectral Arrow`.
 *And test your new mod. Shoot water, lava, ground and mobs to test.*
 
+## Part 4: Fixing our code. 
+Now, having tested your mod, you will have noticed that it does not *teleport* when you target a mob (zombies, villagers or cows).
+We need to customise our existing code to make these changes.
 
+Firstly we are going to use the *scoreboard* command to determine differentiation between the player and targets.
+We need to add to the beginning of our code in `tick.mcfunction` file.
 
+Before our first line of code we need to add the command:
+```
+scoreboard
+```
+We need to manage our objectives by adding:
+```
+objectives add
+```
+We need to define the property related to our function:
+```
+tpArrowHit
+```
+And lastly,we need to the type of objective as one not changed by game events, only updated by commands, add this:
+```
+dummy
+```
+Which the full line of code should look like this:
+```
+scoreboard objectives add tpArrowHit dummy
+```
+
+We should have 3 lines of code. To complete fixing our code we need to add the following 2 lines.
+```
+execute as @e at @s store success score @s tpArrowHit run effect clear @s minecraft:glowing
+execute at @e[scores={tpArrowHit=1..100}] as @p rotated as @p run tp ~ ~ ~
+```
+**Make sure to save your file in the correct location and test your mod**
