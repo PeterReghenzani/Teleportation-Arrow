@@ -172,32 +172,42 @@ Firstly we are going to use the *scoreboard objective* and *dummy* command to tr
 We will call the new *sore board* objective `tpArrowHit`.
 
 Our code will look like this:
-`scoreboard objectives add tpArrowHit dummy`
+```
+scoreboard objectives add tpArrowHit dummy
+```
 
 Our next piece of code will be placed after all of code on line 4. We need to change our players location from the location of firing the arrow to the new location of the arrow.
 We will again use `execute at @e` and combine our object identifier with the new location. 
 
 It will look like this:
-`execute at @e[type=minecraft:spectral_arrow,nbt={inGround:1b}]` 
+```
+execute at @e[type=minecraft:spectral_arrow,nbt={inGround:1b}]
+``` 
 
 This next line tells all entities to store their result, and update their tpArrowHit scoreboard objective if they succeed in running the command to clear the glowing effect bestowed by the spectral arrow.
 
 Our code will look like this:
-`execute as @e store success score @s tpArrowHit run effect clear @s minecraft:glowing`
+```
+execute as @e store success score @s tpArrowHit run effect clear @s minecraft:glowing
+```
 
 Our last part  will set the entity to run the command as the nearest player, and will use the `rotated as` subcommand to set the rotation to the same as the nearest playeras well. This will ensure that their rotation does not change after they have teleported.
 
 This part "run tp ~ ~ ~" simply says to run the teleport command at the same relative position as the target that was already set, being the arrow.
 
 It will look like this:
-`execute at @e[scores={tpArrowHit=1}] as @p rotated as @p run tp ~ ~ ~`
+```
+execute at @e[scores={tpArrowHit=1}] as @p rotated as @p run tp ~ ~ ~
+```
 
 The final result in our fixed result should look like this:
-`scoreboard objectives add tpArrowHit dummy
+```
+scoreboard objectives add tpArrowHit dummy
 execute at @e[type=minecraft:spectral_arrow,nbt={inGround:1b}] as @p rotated as @p run tp ~ ~ ~
 execute at @e[type=minecraft:spectral_arrow,nbt={inGround:1b}] as @e[type=minecraft:spectral_arrow,nbt={inGround:1b}] run kill @s
 execute as @e at @s store success score @s tpArrowHit run effect clear @s minecraft:glowing
-execute at @e[scores={tpArrowHit=1..100}] as @p rotated as @p run tp ~ ~ ~`
+execute at @e[scores={tpArrowHit=1..100}] as @p rotated as @p run tp ~ ~ ~
+```
 
 **Save your work.**
 
